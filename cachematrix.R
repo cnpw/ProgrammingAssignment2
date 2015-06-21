@@ -1,22 +1,24 @@
 # 2 main functions:
-# i) makeCacheMatrix function stores the inverse of a matrix
-# ii) cacheSolve function calls to see if the inverse is stored,
-#     if not, it will find the inverse of the matrix stored
-#     in the makeCacheMatrix function
+# i)  makeCacheMatrix() function stores the inverse of a "special
+#     matrix"
+# ii) cacheSolve() function calls and retrieves the inverse of the
+#     "special matrix" if it is stored in makeCacheMatrix(), if not
+#     it will compute the inverse of the matrix and store it in
+#     makeCacheMatrix()
 
-# First function calls the matrix and stores its inverse 
+# First function sets the "special matrix" and stores its inverse 
 
 makeCacheMatrix <- function(x = matrix()) {
   inv <- NULL
   
-  # Functions to create and retrieve created matrix
+  # Functions to create and retrieve "special matrix"
   set_matrix <- function(mat) {
     x <<- mat
     inv <<- NULL
   }
   get_matrix <- function() x
   
-  # Functions to store and retrieve the stored inverse value
+  # Functions to store and retrieve the inverse
   set_inv <- function(inverse) inv <<- inverse
   get_inv <- function() inv
   
@@ -29,16 +31,17 @@ makeCacheMatrix <- function(x = matrix()) {
 
 cacheSolve <- function(x, ...) {
   
-  # Return a matrix that is the inverse of matrix 'x'
+  # Return the inverse of "special matrix" if already stored in
+  # makeCacheMatrix()
   inv <- x$get_inv()
   if(!is.null(inv)) {
     message("getting cached data")
     return(inv)
   }
   
-  # If not returned, inverse is not stored thus finds
-  # the inverse using the solve() function and store in
-  # first function then call inverse
+  # If inverse is not stored, compute the inverse using the
+  # solve() function and store in makeCacheMatrix() then call
+  # the inverse of "special matrix"
   inv_data <- x$get_matrix()
   inv <- solve(inv_data, ...)
   x$set_inv(inv)
@@ -48,6 +51,6 @@ cacheSolve <- function(x, ...) {
 # Test with 2x2 matrix
 mat <- matrix(c(2, -1, -1, 1), nrow = 2, ncol = 2)
 a <- makeCacheMatrix(mat)
-a$get_matrix()    # The "special" matrix
-cacheSolve(a)     # Creates and stores inverse of "special" matrix
+a$get_matrix()    # The "special matrix"
+cacheSolve(a)     # Creates and stores inverse of "special matrix"
 cacheSolve(a)     # Since inverse already stored, retrieve stored inverse
