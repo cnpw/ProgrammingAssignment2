@@ -37,9 +37,17 @@ cacheSolve <- function(x, ...) {
   }
   
   # If not returned, inverse is not stored thus finds
-  # the inverse and store in first function then call inverse
+  # the inverse using the solve() function and store in
+  # first function then call inverse
   inv_data <- x$get_matrix()
-  inv <- inverse_function(inv_data, ...)
+  inv <- solve(inv_data, ...)
   x$set_inv(inv)
   inv
 }
+
+# Test with 2x2 matrix
+mat <- matrix(c(2, -1, -1, 1), nrow = 2, ncol = 2)
+a <- makeCacheMatrix(mat)
+a$get_matrix()    # The "special" matrix
+cacheSolve(a)     # Creates and stores inverse of "special" matrix
+cacheSolve(a)     # Since inverse already stored, retrieve stored inverse
